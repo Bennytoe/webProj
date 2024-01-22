@@ -1,0 +1,129 @@
+﻿@model webdb.Models.GenreViewModel[]
+@{
+    ViewData["Title"] = "jam";
+}
+
+<div class="genres">
+    @foreach (var genre in Model)
+    {
+        <a class="selectable_Genres" onclick="generateEvents(event, @genre.Id)"><span>@genre.Name</span></a>
+    }
+    <a class="selectable_Genres"><span>All Genres</span></a>
+</div>
+
+
+<div class="searchField">
+    <div class="search">
+        <input type="text" id="searchTerm" class="searchTerm" onkeyup="generateEvents(event, -1)" placeholder="Search for artist...">
+    </div>
+</div>
+
+<div id="events">
+    <div class="container mt-5">
+        <div class="row">
+        </div>
+    </div>
+</div>
+@* 
+<div class="container mt-5">
+    <div class="row">
+        <!-- Event Card 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Event Image">
+                <div class="card-body">
+                    <h5 class="card-title">Event Name 1</h5>
+                    <p class="card-text">Available Places: 100</p>
+                    <p class="card-text">Date: January 1, 2024</p>
+                    <p class="card-text">Location: City Center</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Card 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Event Image">
+                <div class="card-body">
+                    <h5 class="card-title">Event Name 2</h5>
+                    <p class="card-text">Available Places: 50</p>
+                    <p class="card-text">Date: February 15, 2024</p>
+                    <p class="card-text">Location: Park Amphitheater</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Card 3 -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Event Image">
+                <div class="card-body">
+                    <h5 class="card-title">Event Name 3</h5>
+                    <p class="card-text">Available Places: 75</p>
+                    <p class="card-text">Date: March 30, 2024</p>
+                    <p class="card-text">Location: Beach Resort</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ *@
+@section Scripts {
+    <script>
+        var lastGenreId = 0;
+        
+        function addEventCard(artist, availablePlaces, date, location) {
+            var cardHtml = `
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${artist}</h5>
+                            <p class="card-text">Available Places: ${availablePlaces}</p>
+                            <p class="card-text">Date: ${date}</p>
+                            <p class="card-text">Location: ${location}</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $("#events .row").append(cardHtml);
+        }
+
+        function encodeVal(value) {
+            return encodeURIComponent(value);
+        }
+
+        function generateEvents(event, genreId) {
+            event.preventDefault();
+            var searchText = $("#searchTerm").val();
+
+            if (genreId === -1) {
+                genreId = lastGenreId;
+            }
+
+            $("#events .row").html("");
+
+            $.ajax({
+                url: "/Event/GetList",
+                data: `genreId=${encodeVal(genreId)}&searchText=${encodeVal(searchText)}`,
+                success: function (data) {
+                    console.log(data);
+                    data.forEach(d => { 
+                        addEventCard(d.artists[0].name, d.availableSpace, d.date, d.location)
+                    })
+                    
+                }
+            })
+
+            lastGenreId = genreId;
+        }
+
+        setTimeout(() => {
+            generateEvents({ preventDefault: function () { } }, -1);
+        }, 200);
+    </script>
+}

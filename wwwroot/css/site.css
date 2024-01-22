@@ -1,0 +1,118 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+    background: #f2f2f2;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-right: 15px;
+    display: flex;
+    background-color: #db4545;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.navbar a {
+    position: relative;
+    font-size: 16px;
+    color: black;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 30px;
+}
+
+.navbar a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: black;
+    transition: .3s;
+}
+
+.navbar a:hover:before {
+    width: 100%;
+}
+
+.logo {
+    position: relative;
+}
+
+.genres {
+    padding: 50px;
+    display: flex;
+    margin-top: 5px;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+}
+
+.selectable_Genres {
+    display: inline-block;
+    color: black;
+    border: 1px solid #db4545;
+    border-radius: 20px;
+    text-decoration: none;
+    align-items: center;
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-left: 8px;
+    margin-top: 30px;
+    margin-bottom: -30px;
+    white-space: nowrap;
+}
+
+.search {
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.searchTerm {
+    width: 100%;
+    border: none;
+    padding: 7px;
+    height: 45px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+    border-radius: 20px;
+    font-size: 15px;
+}
+
+.searchTerm:focus {
+    color: #000000;
+    font-size: 15px;
+}
+
+.wrap {
+    width: 30%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form {
+    width: 80%;
+    margin: 90px auto;
+}
+
+#loginBtn, #registerBtn {
+    margin-top: 25px;
+}
+
+#border-footer{
+    position: flex;
+}
